@@ -1,20 +1,71 @@
+# Ayoub Ameur Portfolio
+
 <div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+  <br />
+  <img src="./src/assets/ayoublogo.png" width="180" alt="Ayoub Logo" />
+  <br />
+  <br />
+  <p align="center">
+    <strong>Full-Stack Engineer | AI & Agentic Systems Architect</strong>
+    <br />
+    <em>Bridging the gap between human intent and artificial cognition.</em>
+  </p>
+  
+  <p align="center">
+    <a href="https://github.com/AyoubAmeur-crypto">GitHub</a> •
+    <a href="https://linkedin.com/in/ayoubameur">LinkedIn</a>
+  </p>
 </div>
 
-# Run and deploy your AI Studio app
+---
 
-This contains everything you need to run your app locally.
+## Why Choose Me?
 
-View your app in AI Studio: https://ai.studio/apps/c4b3a4b8-7e23-4395-9de6-7912c8053807
+> **Cognitive Logic**  
+> Architecting deep system logic where pure code transcends into artificial intelligence.
 
-## Run Locally
+> **Full-Stack Precision**  
+> Relentless focus on performance, scalability, and pixel-perfect technical execution.
 
-**Prerequisites:**  Node.js
+> **Agentic Autonomy**  
+> Developing self-governing systems that solve business complexities with precision.
 
+---
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+## Technical Foundation
+
+This portfolio is a showcase of high-performance web engineering and interactive design.
+
+- **Frontend**: React 19, GSAP (ScrollTrigger, SplitText), Tailwind CSS 4, Lenis (Smooth Scroll)
+- **Backend**: Node.js, Express, Nodemailer
+- **AI Integration**: Google Gemini API for intelligent interactions
+- **Performance**: GPU-accelerated animations and optimized asset delivery
+
+## Installation & Setup
+
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/AyoubAmeur-crypto/portfolio.git
+   ```
+
+2. **Install dependencies**:
+   ```bash
+   npm install
+   ```
+
+3. **Configure Environment**:
+   Create a `.env` file and add your credentials:
+   ```env
+   GEMINI_API_KEY=your_api_key_here
+   ```
+
+4. **Run the application**:
+   ```bash
+   npm run dev
+   ```
+
+---
+
+<p align="center">
+  Design & Code by <strong>Ayoub Ameur</strong>
+</p>
