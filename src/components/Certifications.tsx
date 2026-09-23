@@ -5,28 +5,68 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const certs = [
+interface CertItem {
+  number: string;
+  title: string;
+  subtitle: string;
+  issuer: string;
+  date: string;
+  credentialId?: string;
+  tags: string[];
+  icon: string;
+}
+
+const certs: CertItem[] = [
   {
     number: '01',
+    title: 'Microservices with Java & Spring Boot',
+    subtitle: 'Spring Cloud, Docker, Kubernetes, Helm & Kafka',
+    issuer: 'Udemy',
+    date: 'August 2026',
+    credentialId: 'UC-55fe2f2e-313a-4bb4-9999-f39b44fc2914',
+    tags: ['Microservices', 'Spring Cloud', 'Kubernetes', 'Apache Kafka', 'Security'],
+    icon: 'hub',
+  },
+  {
+    number: '02',
+    title: 'Java Spring Boot Full Stack',
+    subtitle: 'eCommerce Masterclass & Enterprise Persistence',
+    issuer: 'Udemy',
+    date: 'January 2026',
+    credentialId: 'UC-9e56bce20-2660-44cf-91d6-1e8c2167827a',
+    tags: ['Spring Boot', 'Spring Data JPA', 'REST Architecture', 'PostgreSQL'],
+    icon: 'shopping_bag',
+  },
+  {
+    number: '03',
+    title: 'Playwright: Automated Testing',
+    subtitle: 'End-to-End Automation & Quality Architectures',
+    issuer: 'Master.dev',
+    date: 'June 2026',
+    tags: ['Playwright', 'Page Object Model', 'E2E Testing', 'API Mocking'],
+    icon: 'verified',
+  },
+  {
+    number: '04',
     title: 'AWS Academy Graduate',
     subtitle: 'Cloud Foundations',
     issuer: 'Amazon Web Services',
-    date: 'April 2026',
+    date: 'March 2026',
     tags: ['Cloud Architecture', 'Scalable Infrastructure', 'AWS Services'],
     icon: 'cloud',
   },
   {
-    number: '02',
+    number: '05',
     title: 'LLM Engineering with RAG',
-    subtitle: 'Optimizing AI Solutions',
-    issuer: 'Coursera',
-    date: 'March 2026',
-    tags: ['RAG Pipelines', 'LLM Lifecycle', 'Prompt Engineering'],
+    subtitle: 'Optimizing AI Solutions & Pipelines',
+    issuer: 'Specialized Program',
+    date: 'February 2026',
+    tags: ['RAG Pipelines', 'LLM Engineering', 'Agentic Workflows'],
     icon: 'psychology',
   },
 ];
 
-const CertCard = ({ cert }: { cert: typeof certs[0] }) => {
+const CertCard: React.FC<{ cert: CertItem }> = ({ cert }) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const shimmerRef = useRef<HTMLDivElement>(null);
   const numberRef = useRef<HTMLSpanElement>(null);
@@ -39,7 +79,7 @@ const CertCard = ({ cert }: { cert: typeof certs[0] }) => {
 
     gsap.to(card, {
       backgroundColor: 'rgba(255,255,255,0.03)',
-      borderColor: 'rgba(255,255,255,0.15)',
+      borderColor: 'rgba(255,255,255,0.18)',
       duration: 0.4,
       ease: 'power2.out',
     });
@@ -100,7 +140,7 @@ const CertCard = ({ cert }: { cert: typeof certs[0] }) => {
       ref={cardRef}
       onMouseEnter={onEnter}
       onMouseLeave={onLeave}
-      className="relative rounded-2xl border p-8 md:p-10 cursor-pointer overflow-hidden"
+      className="relative rounded-2xl border p-8 md:p-10 cursor-pointer overflow-hidden group"
       style={{ borderColor: 'rgba(255,255,255,0.06)', transition: 'none' }}
     >
       {/* Shimmer sweep */}
@@ -143,17 +183,22 @@ const CertCard = ({ cert }: { cert: typeof certs[0] }) => {
       </div>
 
       {/* Title */}
-      <h3 className="text-xl md:text-3xl font-bold text-white tracking-tight leading-tight mb-1">
+      <h3 className="text-xl md:text-2xl font-bold text-white tracking-tight leading-tight mb-1">
         {cert.title}
       </h3>
       <p className="text-sm md:text-base text-white/40 font-light mb-6">{cert.subtitle}</p>
 
       {/* Meta row */}
-      <div className="flex items-center gap-4 mb-6">
-        <span className="text-xs font-mono uppercase tracking-[0.18em] text-white/25 border border-white/8 rounded-full px-3 py-1">
+      <div className="flex flex-wrap items-center gap-4 mb-6">
+        <span className="text-xs font-mono uppercase tracking-[0.18em] text-white/30 border border-white/8 rounded-full px-3 py-1">
           {cert.issuer}
         </span>
         <span className="text-xs font-mono text-white/20">{cert.date}</span>
+        {cert.credentialId && (
+          <span className="text-[10px] font-mono text-white/20 truncate max-w-[200px]">
+            ID: {cert.credentialId}
+          </span>
+        )}
       </div>
 
       {/* Tags */}
@@ -178,19 +223,28 @@ const Certifications = () => {
   const gridRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
-    gsap.fromTo(headerRef.current,
+    gsap.fromTo(
+      headerRef.current,
       { y: 40, opacity: 0 },
       {
-        y: 0, opacity: 1, duration: 1, ease: 'power4.out',
-        scrollTrigger: { trigger: headerRef.current, start: 'top 85%' }
+        y: 0,
+        opacity: 1,
+        duration: 1,
+        ease: 'power4.out',
+        scrollTrigger: { trigger: headerRef.current, start: 'top 85%' },
       }
     );
 
-    gsap.fromTo(gridRef.current?.children || [],
+    gsap.fromTo(
+      gridRef.current?.children || [],
       { y: 60, opacity: 0 },
       {
-        y: 0, opacity: 1, duration: 1, stagger: 0.2, ease: 'power3.out',
-        scrollTrigger: { trigger: gridRef.current, start: 'top 80%' }
+        y: 0,
+        opacity: 1,
+        duration: 1,
+        stagger: 0.2,
+        ease: 'power3.out',
+        scrollTrigger: { trigger: gridRef.current, start: 'top 80%' },
       }
     );
   }, { scope: containerRef });
@@ -208,7 +262,7 @@ const Certifications = () => {
             </h2>
           </div>
           <p className="text-gray-500 font-light text-sm md:text-base max-w-xs md:text-right">
-            Industry-recognized certifications backing hands-on expertise.
+            Industry-recognized certifications backing hands-on software engineering.
           </p>
         </div>
 
@@ -224,11 +278,11 @@ const Certifications = () => {
           <div className="flex items-center gap-3">
             <span className="w-2 h-2 rounded-full bg-white/30 animate-pulse" />
             <span className="text-xs font-mono uppercase tracking-[0.2em] text-white/25">
-              2 Certifications · 2026
+              Verified Certifications · 2026
             </span>
           </div>
           <span className="text-xs font-mono text-white/15 tracking-widest uppercase">
-            Cloud · AI/ML · Engineering
+            Cloud · Microservices · AI · Quality Automation
           </span>
         </div>
 

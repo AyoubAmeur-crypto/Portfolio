@@ -65,22 +65,30 @@ const Testimonials = () => {
 
       // Premium 3D start state for off-screen cards
       if (i > 0) {
-        gsap.set(content, { opacity: 0, y: '25vh', scale: 0.85, filter: 'blur(10px)' });
-        gsap.set(backdrop, { opacity: 0, scale: 0.8 });
+        gsap.set(content, { opacity: 0, y: '35vh', z: -300, rotationX: -20, scale: 0.8, filter: 'blur(20px)' });
+        gsap.set(backdrop, { opacity: 0, scale: 0.8, rotationZ: -15, y: '15vh' });
+      } else {
+        // First card start state (since it's already in view)
+        gsap.set(content, { y: '10vh' }); 
+        gsap.set(backdrop, { opacity: 0, scale: 0.9, y: '5vh' });
       }
 
       const slideTl = gsap.timeline();
 
-      // Animate INTO view
+      // IN PHASE: Snap into readable view
       if (i > 0) {
-        slideTl.to(content, { opacity: 1, y: 0, scale: 1, filter: 'blur(0px)', duration: 1.5, ease: 'power3.out' }, 0);
-        slideTl.to(backdrop, { opacity: 0.15, scale: 1, duration: 1.5, ease: 'power3.out' }, 0);
+        slideTl.to(content, { opacity: 1, y: '5vh', z: 0, rotationX: 0, scale: 1, filter: 'blur(0px)', duration: 2, ease: 'power3.out' }, 'in');
+        slideTl.to(backdrop, { opacity: 0.1, scale: 1, rotationZ: -5, y: '5vh', duration: 2, ease: 'power3.out' }, 'in');
       }
 
-      // Wait, then animate OUT of view (scale up and sink into darkness)
+      // AMBIENT PHASE: Never freeze. Slowly pan and grow while user scrolls through the reading zone
+      slideTl.to(content, { y: '-5vh', z: 50, duration: 4, ease: 'none' }, 'ambient');
+      slideTl.to(backdrop, { opacity: 0.25, scale: 1.1, rotationZ: 5, y: '-5vh', duration: 4, ease: 'none' }, 'ambient');
+
+      // OUT PHASE: Fling out aggressively into space
       if (i < cards.length - 1) {
-        slideTl.to(content, { opacity: 0, y: '-25vh', scale: 1.15, filter: 'blur(10px)', duration: 1.5, ease: 'power3.in' }, "+=0.75");
-        slideTl.to(backdrop, { opacity: 0, scale: 1.2, duration: 1.5, ease: 'power3.in' }, "<");
+        slideTl.to(content, { opacity: 0, y: '-40vh', z: 400, rotationX: 25, scale: 1.25, filter: 'blur(20px)', duration: 2, ease: 'power3.in' }, 'out');
+        slideTl.to(backdrop, { opacity: 0, scale: 1.3, rotationZ: 15, y: '-15vh', duration: 2, ease: 'power3.in' }, 'out');
       }
 
       tl.add(slideTl);
@@ -103,7 +111,7 @@ const Testimonials = () => {
       <div ref={pinSpacerRef} className="w-full h-screen relative flex flex-col items-center justify-center overflow-hidden">
         
         {/* Stacked Review Slides - Centered perfectly in the void */}
-        <div className="relative w-full h-full max-w-5xl mx-auto z-20 flex items-center justify-center px-4">
+        <div className="relative w-full h-full max-w-5xl mx-auto z-20 flex items-center justify-center px-4" style={{ perspective: "1500px" }}>
           {reviews.map((review, i) => (
             <div 
               key={`slide-${i}`} 

@@ -25,31 +25,8 @@ const FloatingContact = () => {
   const mainBtnRef = useRef<HTMLButtonElement>(null);
 
   useGSAP(() => {
-    // Initial hide
-    gsap.set(containerRef.current, { opacity: 0, scale: 0.8, pointerEvents: 'none' });
-
-    // Show button only after scrolling past the Hero section
-    ScrollTrigger.create({
-      trigger: "#hero",
-      start: "bottom 80%",
-      onEnter: () => {
-        gsap.to(containerRef.current, { 
-          opacity: 1, 
-          scale: 1, 
-          force3D: true,
-          pointerEvents: 'auto'
-        });
-      },
-      onLeaveBack: () => {
-        gsap.to(containerRef.current, { 
-          opacity: 0, 
-          scale: 0.8, 
-          duration: 0.4, 
-          force3D: true,
-          pointerEvents: 'none'
-        });
-      }
-    });
+    // Always visible
+    gsap.set(containerRef.current, { opacity: 1, scale: 1, pointerEvents: 'auto' });
 
     if (isOpen) {
       // Animation when opening
@@ -90,19 +67,19 @@ const FloatingContact = () => {
     {
       icon: <WhatsAppIcon />,
       label: "WhatsApp",
-      link: "#", // Placeholder
+      link: "https://wa.me/212770566628",
       color: "hover:bg-green-500/10 hover:border-green-500/50"
     },
     {
       icon: <Linkedin size={22} />,
       label: "LinkedIn",
-      link: "#", // Placeholder
+      link: "https://linkedin.com/in/ayoub-ameur-772a70362",
       color: "hover:bg-blue-500/10 hover:border-blue-500/50"
     },
     {
       icon: <Github size={22} />,
       label: "GitHub",
-      link: "#", // Placeholder
+      link: "https://github.com/AyoubAmeur-crypto",
       color: "hover:bg-white/10 hover:border-white/50"
     }
   ];

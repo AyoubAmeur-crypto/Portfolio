@@ -11,7 +11,7 @@ import Services from './components/Services';
 import Skills from './components/Skills';
 import Experience from './components/Experience';
 import Projects from './components/Projects';
-import Testimonials from './components/Testimonials';
+import Contributions from './components/Contributions';
 import Certifications from './components/Certifications';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
@@ -22,20 +22,29 @@ gsap.registerPlugin(ScrollTrigger);
 export default function App() {
   useEffect(() => {
     const lenis = new Lenis({
-      duration: 1.2,
+      duration: 0.85,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: true,
-      wheelMultiplier: 1,
-      touchMultiplier: 2,
+      wheelMultiplier: 0.95,
+      touchMultiplier: 1,
     });
 
     lenis.on('scroll', ScrollTrigger.update);
-    gsap.ticker.add((time) => { lenis.raf(time * 1000); });
-    gsap.ticker.lagSmoothing(0);
 
-    return () => { lenis.destroy(); };
+    const updateLenis = (time: number) => {
+      lenis.raf(time * 1000);
+    };
+
+    gsap.ticker.add(updateLenis);
+    // Standard GSAP lag smoothing: smoothly absorbs heavy CPU frames rather than dropping scroll frames
+    gsap.ticker.lagSmoothing(500, 33);
+
+    return () => {
+      gsap.ticker.remove(updateLenis);
+      lenis.destroy();
+    };
   }, []);
 
   return (
@@ -50,7 +59,7 @@ export default function App() {
         <Skills />
         <Experience />
         <Projects />
-        <Testimonials />
+        <Contributions />
         <Certifications />
         <Contact />
         <Footer />

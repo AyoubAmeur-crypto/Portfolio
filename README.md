@@ -6,29 +6,30 @@
   <br />
   <br />
   <p align="center">
-    <strong>Full-Stack Engineer | AI & Agentic Systems Architect</strong>
+    <strong>Software Engineering & AI | Backend, Full-Stack & Applied AI</strong>
     <br />
-    <em>Bridging the gap between human intent and artificial cognition.</em>
+    <em>Building reliable software products across backend, web, mobile and applied AI.</em>
   </p>
   
   <p align="center">
     <a href="https://github.com/AyoubAmeur-crypto">GitHub</a> •
-    <a href="https://linkedin.com/in/ayoubameur">LinkedIn</a>
+    <a href="https://linkedin.com/in/ayoub-ameur-772a70362">LinkedIn</a> •
+    <a href="mailto:ayoubameur.tech@gmail.com">Email</a>
   </p>
 </div>
 
 ---
 
-## Why Choose Me?
+## Core Focus Areas
 
-> **Cognitive Logic**  
-> Architecting deep system logic where pure code transcends into artificial intelligence.
+> **Backend & Systems Engineering**  
+> Designing robust REST APIs and microservices with Java, Spring Boot, PostgreSQL, and clean architectural boundaries.
 
-> **Full-Stack Precision**  
-> Relentless focus on performance, scalability, and pixel-perfect technical execution.
+> **Software Quality & Automation**  
+> Building enterprise Playwright test frameworks, deterministic database seed/reset workflows, and regression suites.
 
-> **Agentic Autonomy**  
-> Developing self-governing systems that solve business complexities with precision.
+> **Applied AI & Computer Vision**  
+> Developing real-world vision pipelines with PyTorch, YOLO, and SAM, exposed via high-performance FastAPI backends.
 
 ---
 

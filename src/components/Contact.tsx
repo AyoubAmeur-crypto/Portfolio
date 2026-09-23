@@ -1,8 +1,10 @@
+import React, { useRef, useState } from 'react';
 import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { SendHorizontal, CheckCircle2, Loader2, ArrowRight, X } from 'lucide-react';
+import { Loader2, ArrowRight, X } from 'lucide-react';
 import gsap from 'gsap';
-import { useRef, useState } from 'react';
+import ayoubLogo from '../assets/ayoublogo.png';
+
 gsap.registerPlugin(ScrollTrigger);
 
 const Contact = () => {
@@ -20,9 +22,13 @@ const Contact = () => {
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
   
+  const formContainerRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
   const successRef = useRef<HTMLDivElement>(null);
-  const sendIconRef = useRef<HTMLDivElement>(null);
+  
+  const logoRef = useRef<HTMLDivElement>(null);
+  const glowRef = useRef<HTMLDivElement>(null);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,79 +36,165 @@ const Contact = () => {
     
     setStatus('loading');
 
-    // Animation: Send form away
-    const tl = gsap.timeline();
-    tl.to(formRef.current, {
-      y: -20,
-      opacity: 0,
-      duration: 0.5,
-      ease: 'power3.inOut'
-    })
-    .to(sendIconRef.current, {
-      x: 100,
-      y: -100,
-      opacity: 0,
-      duration: 0.8,
-      ease: 'back.in(1.7)'
-    }, '-=0.2');
-    
     try {
-      const response = await fetch('http://localhost:5000/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
+      let res: Response | null = null;
+      let data: any = null;
+
+      // 1. Try relative endpoint (handled by Vite dev middleware or production server)
+      try {
+        const r1 = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData),
+        });
+        if (r1.ok) {
+          res = r1;
+          data = await r1.json();
+        } else {
+          try {
+            data = await r1.json();
+          } catch (_) {}
+        }
+      } catch (_) {}
+
+      // 2. Fallback to standalone port 5000 if running
+      if (!res || !res.ok) {
+        try {
+          const r2 = await fetch('http://localhost:5000/api/contact', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(formData),
+          });
+          if (r2.ok) {
+            res = r2;
+            data = await r2.json();
+          } else {
+            try {
+              data = await r2.json();
+            } catch (_) {}
+          }
+        } catch (_) {}
+      }
+
+      if (!res || !res.ok) {
+        throw new Error(data?.error || 'Failed to send message. Please try again.');
+      }
+      
+      // Clean fade out of the form
+      gsap.to(formContainerRef.current, {
+        opacity: 0,
+        y: -10,
+        duration: 0.25,
+        ease: 'power2.inOut',
+        onComplete: () => {
+          setStatus('success');
+        },
       });
-      
-      if (!response.ok) throw new Error('Failed to send message');
-      
-      setStatus('success');
-      setFormData({ name: '', email: '', message: '' });
-
-      // Animate success UI in
-      gsap.fromTo(successRef.current, 
-        { scale: 0.8, opacity: 0, y: 20 },
-        { scale: 1, opacity: 1, y: 0, duration: 0.6, ease: 'expo.out' }
-      );
-
-      setTimeout(() => {
-        closeModal();
-        // Reset after modal closes
-        setTimeout(() => {
-          setStatus('idle');
-          gsap.set([formRef.current, sendIconRef.current], { clearProps: 'all' });
-        }, 500);
-      }, 3000);
-    } catch (err) {
+    } catch (err: any) {
       setStatus('error');
-      setErrorMessage('Something went wrong. Please try again.');
-      gsap.to(formRef.current, { opacity: 1, y: 0, duration: 0.5 });
+      setErrorMessage(err?.message || 'Something went wrong. Please try again.');
     }
   };
 
+  // Dedicated success animation — ensures elements are hidden on keyframe 0 and fade in step-by-step
+  useGSAP(() => {
+    if (status !== 'success') return;
+
+    // Immediately prepare all elements to zero opacity before paint
+    gsap.set(successRef.current, { opacity: 0, y: 15 });
+    gsap.set(logoRef.current, { opacity: 0, scale: 0.88, y: 10 });
+    gsap.set(glowRef.current, { opacity: 0, scale: 0.4 });
+    gsap.set('.success-text', { opacity: 0, y: 12 });
+
+    const tl = gsap.timeline({ delay: 0.22 });
+
+    // Step 1: Smooth container entrance
+    tl.to(successRef.current, {
+      opacity: 1,
+      y: 0,
+      duration: 0.45,
+      ease: 'power3.out',
+    })
+    // Step 2: Logo fades in cleanly
+    .to(
+      logoRef.current,
+      {
+        opacity: 1,
+        scale: 1,
+        y: 0,
+        duration: 0.65,
+        ease: 'power3.out',
+      },
+      '-=0.2'
+    )
+    // Step 3: Soft ambient light glow radiates behind logo
+    .to(
+      glowRef.current,
+      {
+        opacity: 0.65,
+        scale: 1,
+        duration: 1.1,
+        ease: 'power2.out',
+      },
+      '-=0.45'
+    )
+    // Step 4: Stagger text and button step by step
+    .to(
+      '.success-text',
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.55,
+        stagger: 0.12,
+        ease: 'power3.out',
+      },
+      '-=0.6'
+    );
+
+    // Auto-close modal after 5.5s
+    timerRef.current = setTimeout(() => {
+      closeModal();
+      setTimeout(() => {
+        setStatus('idle');
+        setFormData({ name: '', email: '', message: '' });
+        gsap.set(formContainerRef.current, { clearProps: 'all' });
+        gsap.set(successRef.current, { clearProps: 'all' });
+      }, 400);
+    }, 5500);
+
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
+  }, { scope: modalContentRef, dependencies: [status] });
+
   useGSAP(() => {
     // Initial scroll animation
-    gsap.from(elementsRef.current?.children || [], {
-      scrollTrigger: {
-        trigger: containerRef.current,
-        start: 'top 75%',
-      },
-      y: 60,
-      opacity: 0,
-      duration: 1.2,
-      stagger: 0.15,
-      ease: 'power4.out'
-    });
+    gsap.fromTo(
+      elementsRef.current?.children || [],
+      { y: 40, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.85,
+        stagger: 0.12,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: 'top 75%',
+        },
+      }
+    );
 
     // Special scrolling effect for the button
     gsap.to(btnWrapperRef.current, {
-      scale: 1.15,
-      y: -15,
+      scale: 1.12,
+      y: -12,
       scrollTrigger: {
         trigger: containerRef.current,
-        start: 'top 40%',
+        start: 'top 45%',
         end: 'bottom bottom',
-        scrub: 1
-      }
+        scrub: 0.5,
+      },
     });
   }, { scope: containerRef });
 
@@ -138,6 +230,11 @@ const Contact = () => {
   });
 
   const closeModal = contextSafe(() => {
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+      timerRef.current = null;
+    }
+
     const tl = gsap.timeline({
       onComplete: () => {
         setIsModalOpen(false);
@@ -184,73 +281,102 @@ const Contact = () => {
         <div 
           ref={modalBgRef}
           onClick={closeModal}
-          className="absolute inset-0 bg-black/60 backdrop-blur-xl opacity-0"
+          className="absolute inset-0 bg-black/75 backdrop-blur-xl opacity-0"
         ></div>
 
         {/* Modal Content */}
         <div 
           ref={modalContentRef}
-          className="relative w-full max-w-lg p-10 bg-[#0a0a0a] border border-white/10 rounded-3xl shadow-[0_0_50px_rgba(0,0,0,0.8)] opacity-0 flex flex-col gap-6 mx-4"
+          className="relative w-full max-w-lg p-8 sm:p-10 bg-[#0a0a0a] border border-white/10 rounded-3xl shadow-[0_0_60px_rgba(0,0,0,0.9)] opacity-0 flex flex-col gap-6 mx-4 overflow-hidden"
         >
           <button 
             onClick={closeModal}
-            className="absolute top-6 right-6 text-gray-500 hover:text-white transition-colors p-2 hover:bg-white/5 rounded-full"
+            className="absolute top-6 right-6 text-gray-400 hover:text-white transition-colors p-2 hover:bg-white/10 rounded-full z-20 cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
 
-          {status !== 'success' ? (
-            <>
+          {/* Form Container */}
+          <div ref={formContainerRef} className={status === 'success' ? 'hidden' : 'block'}>
+            <div>
+              <h3 className="text-3xl font-bold text-white mb-2">Reach Out.</h3>
+              <p className="text-gray-400 text-sm font-light">Directly to my personal inbox.</p>
+            </div>
+
+            <form ref={formRef} onSubmit={handleSubmit} className="flex flex-col gap-4 mt-2">
               <div>
-                <h3 className="text-3xl font-bold text-white mb-2">Reach Out.</h3>
-                <p className="text-gray-400 text-sm font-light">Directly to my personal inbox.</p>
-              </div>
-
-              <form ref={formRef} onSubmit={handleSubmit} className="flex flex-col gap-4 mt-2">
-                <div>
-                  <label className="block text-xs font-mono uppercase tracking-widest text-gray-500 mb-2">Name</label>
-                  <input type="text" required value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-white/40 transition-colors" placeholder="John Doe" />
-                </div>
-                <div>
-                  <label className="block text-xs font-mono uppercase tracking-widest text-gray-500 mb-2">Email</label>
-                  <input type="email" required value={formData.email} onChange={e => setFormData({ ...formData, email: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-white/40 transition-colors" placeholder="john@company.com" />
-                </div>
-                <div>
-                  <label className="block text-xs font-mono uppercase tracking-widest text-gray-500 mb-2">Message</label>
-                  <textarea rows={4} required value={formData.message} onChange={e => setFormData({ ...formData, message: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-white/40 transition-colors resize-none" placeholder="Tell me about your project..."></textarea>
-                </div>
-
-                {status === 'error' && <div className="text-red-500 text-sm mt-2">{errorMessage}</div>}
-
-                <button type="submit" disabled={status === 'loading'} className="group mt-4 w-full py-4 bg-white text-black font-bold rounded-xl hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 disabled:opacity-50 flex items-center justify-center gap-3">
-                  {status === 'loading' ? (
-                    <>
-                      <Loader2 className="w-5 h-5 animate-spin" />
-                      Sending...
-                    </>
-                  ) : (
-                    <>
-                      Submit Request
-                      <div ref={sendIconRef}>
-                        <SendHorizontal className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-                      </div>
-                    </>
-                  )}
-                </button>
-              </form>
-            </>
-          ) : (
-            <div ref={successRef} className="flex flex-col items-center justify-center py-10 text-center gap-6">
-              <div className="w-20 h-20 bg-white/10 rounded-full flex items-center justify-center">
-                <CheckCircle2 className="w-10 h-10 text-white" />
+                <label className="block text-xs font-mono uppercase tracking-widest text-gray-500 mb-2">Name</label>
+                <input type="text" required value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-white/40 transition-colors" placeholder="John Doe" />
               </div>
               <div>
-                <h3 className="text-3xl font-bold text-white mb-2">Message Received!</h3>
-                <p className="text-gray-400 max-w-[280px] mx-auto">Thank you for reaching out. I'll get back to you as soon as possible.</p>
+                <label className="block text-xs font-mono uppercase tracking-widest text-gray-500 mb-2">Email</label>
+                <input type="email" required value={formData.email} onChange={e => setFormData({ ...formData, email: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-white/40 transition-colors" placeholder="john@company.com" />
+              </div>
+              <div>
+                <label className="block text-xs font-mono uppercase tracking-widest text-gray-500 mb-2">Message</label>
+                <textarea rows={4} required value={formData.message} onChange={e => setFormData({ ...formData, message: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-white/40 transition-colors resize-none" placeholder="Tell me about your project..."></textarea>
+              </div>
+
+              {status === 'error' && <div className="text-red-400 text-xs mt-2 bg-red-500/10 border border-red-500/20 rounded-lg p-3 leading-relaxed">{errorMessage}</div>}
+
+              <button type="submit" disabled={status === 'loading'} className="group mt-4 w-full py-4 bg-white text-black font-bold rounded-xl hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 disabled:opacity-50 flex items-center justify-center gap-3 cursor-pointer">
+                {status === 'loading' ? (
+                  <>
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                    Sending...
+                  </>
+                ) : (
+                  <>
+                    Submit Request
+                  </>
+                )}
+              </button>
+            </form>
+          </div>
+
+          {/* Clean Minimalist Success Presentation */}
+          <div
+            ref={successRef}
+            className={`w-full flex-col items-center justify-center text-center py-10 px-4 opacity-0 ${
+              status === 'success' ? 'flex' : 'hidden'
+            }`}
+          >
+            {/* Pure Brand Logo with Ambient Lighting Glow (No frames, no circular borders) */}
+            <div className="relative mb-8 flex items-center justify-center">
+              {/* Soft Ambient Light Glow */}
+              <div
+                ref={glowRef}
+                className="absolute w-28 h-28 rounded-full bg-white/15 blur-2xl pointer-events-none opacity-0"
+              />
+
+              {/* Pure Floating Logo */}
+              <div ref={logoRef} className="relative z-10 opacity-0">
+                <img
+                  src={ayoubLogo}
+                  alt="Ayoub Ameur"
+                  className="w-12 h-12 sm:w-14 sm:h-14 object-contain brightness-0 invert drop-shadow-[0_0_25px_rgba(255,255,255,0.45)]"
+                />
               </div>
             </div>
-          )}
 
+            {/* Clean Minimalist Title */}
+            <h3 className="success-text opacity-0 text-2xl sm:text-3xl font-bold text-white tracking-tight mb-3">
+              Message Received.
+            </h3>
+
+            {/* Concise, Professional Copy */}
+            <p className="success-text opacity-0 text-white/60 text-sm sm:text-base font-light leading-relaxed max-w-sm mx-auto mb-8">
+              You will be contacted by Ayoub Ameur for more details or to schedule a call.
+            </p>
+
+            {/* Subtle Minimalist Done Button */}
+            <button
+              onClick={closeModal}
+              className="success-text opacity-0 px-7 py-2.5 rounded-full border border-white/15 text-xs font-mono tracking-widest uppercase text-white/70 hover:text-white hover:border-white/40 hover:bg-white/5 transition-all duration-300 cursor-pointer"
+            >
+              Done ✕
+            </button>
+          </div>
         </div>
       </div>
     </section>

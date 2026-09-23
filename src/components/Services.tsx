@@ -12,22 +12,22 @@ gsap.registerPlugin(ScrollTrigger);
 
 const servicesData = [
   {
-    title: "Web Development",
-    description: "Building blazing-fast, scalable web architectures. From pixel-perfect React/Next.js interfaces optimized with smooth GSAP choreographies to highly robust backend systems wired via Node or Python FastAPI.",
+    title: "Backend & Full-Stack",
+    description: "Engineering scalable backend architectures and full-stack web platforms. Designing robust REST APIs with Spring Boot and Node.js, clean service boundaries, and performant React/Next.js interfaces.",
     image: webDevImg,
     hoverRotation: "group-hover:-rotate-[10deg]",
-    hoverBg: "linear-gradient(90deg, #facc15 0%, #eab308 100%)" // Premium Yellow Gradient
+    hoverBg: "linear-gradient(90deg, #facc15 0%, #eab308 100%)"
   },
   {
-    title: "Mobile Development",
-    description: "Engineering ultra-responsive, native-feeling mobile applications. Delivering seamless user experiences and complex offline-first logic for both iOS and Android ecosystems from a single modern codebase.",
+    title: "Mobile & Quality QA",
+    description: "Building cross-platform mobile apps with React Native & Expo Router, backed by enterprise Playwright automation architectures, deterministic test data seeding, and CI/CD pipelines.",
     image: mobDevImg,
     hoverRotation: "group-hover:-rotate-[10deg]",
     hoverBg: "linear-gradient(90deg, #facc15 0%, #eab308 100%)"
   },
   {
     title: "Agentic AI Systems",
-    description: "Pioneering autonomous workflows. Integration of specialized LangChain and AutoGen multi-agent frameworks capable of self-healing, reasoning, and executing massive multi-step data processing dynamically.",
+    description: "Pioneering autonomous workflows. Designing LangChain and LangGraph agent pipelines, multi-step tool orchestration, and intelligent system integrations.",
     image: aiAgentImg,
     hoverRotation: "group-hover:-rotate-[10deg]",
     hoverBg: "linear-gradient(90deg, #facc15 0%, #eab308 100%)"
@@ -39,27 +39,31 @@ const Services = () => {
   const itemsRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
-    gsap.from(itemsRef.current?.children || [], {
-      scrollTrigger: {
-        trigger: itemsRef.current,
-        start: 'top 80%',
-      },
-      y: 50,
-      opacity: 0,
-      duration: 1,
-      stagger: 0.15,
-      ease: 'power3.out'
-    });
+    gsap.fromTo(
+      itemsRef.current?.children || [],
+      { y: 40, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.85,
+        stagger: 0.12,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: itemsRef.current,
+          start: 'top 80%',
+        },
+      }
+    );
   }, { scope: containerRef });
 
   return (
     <section ref={containerRef} className="py-24 md:py-40 bg-black border-t border-white/5 overflow-x-clip" id="services">
       <div className="max-w-[1400px] mx-auto px-6 md:px-24 mb-16 md:mb-24">
         <h2 className="text-4xl md:text-7xl font-bold tracking-tight text-white mb-4 md:mb-6 leading-none">
-          Digital<br />Capabilities.
+          Core<br />Capabilities.
         </h2>
         <p className="text-gray-400 font-light text-base md:text-xl max-w-sm">
-          End-to-end architecture transforming complex requirements into high-performance humanized systems.
+          End-to-end engineering across backend services, full-stack web, mobile platforms, and agentic AI.
         </p>
       </div>
       

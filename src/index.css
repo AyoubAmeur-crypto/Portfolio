@@ -52,16 +52,49 @@
   --color-inverse-surface: #e5e2e1;
   --color-on-tertiary: #313030;
 
-  --font-headline: "Space Grotesk", sans-serif;
+  --font-headline: "Plus Jakarta Sans", "Space Grotesk", sans-serif;
   --font-body: "Manrope", sans-serif;
   --font-label: "Inter", sans-serif;
   --font-mono: "JetBrains Mono", monospace;
+  --font-serif-display: "Instrument Serif", Georgia, serif;
+}
+
+.font-serif-italic {
+  font-family: var(--font-serif-display);
+  font-style: italic;
+}
+
+.font-headline-bold {
+  font-family: var(--font-headline);
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
 @layer base {
   body {
     @apply bg-background text-on-surface font-body overflow-x-hidden selection:bg-primary-container selection:text-on-primary-container;
   }
+}
+
+/* Lenis smooth scroll optimization */
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: clip;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
 }
 
 .material-symbols-outlined {
