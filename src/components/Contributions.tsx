@@ -98,8 +98,9 @@ export default function Contributions() {
           }
         } catch (_) {}
 
-        // Attempt 2: Fetch port 5000 if separate server.ts is running
-        if (!json) {
+        // Attempt 2: Fetch port 5000 only if running in local development
+        const isLocal = typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
+        if (!json && isLocal) {
           try {
             const res2 = await fetch(`http://localhost:5000/api/github/contributions?year=${selectedYear}`);
             if (res2.ok) {

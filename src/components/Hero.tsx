@@ -3,7 +3,7 @@ import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 
 // Figma assets
-import grainyGradientBg from '../assets/grainy-gradient-hero-bg.png';
+import grainyGradientBg from '../assets/grainy-gradient-hero-bg.webp';
 import bracketLeft from '../assets/bracket-left.svg';
 import bracketRight from '../assets/bracket-right.svg';
 import unionArrow from '../assets/union-arrow.svg';

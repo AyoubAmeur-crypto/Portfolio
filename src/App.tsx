@@ -6,7 +6,6 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Nav from './components/Nav';
 import Hero from './components/Hero';
 import About from './components/About';
-import WhyChooseUs from './components/WhyChooseUs';
 import Services from './components/Services';
 import Skills from './components/Skills';
 import Experience from './components/Experience';
@@ -54,7 +53,6 @@ export default function App() {
       <main className="relative">
         <Hero />
         <About />
-       {/* <WhyChooseUs /> */}
         <Services />
         <Skills />
         <Experience />

@@ -57,8 +57,9 @@ const Contact = () => {
         }
       } catch (_) {}
 
-      // 2. Fallback to standalone port 5000 if running
-      if (!res || !res.ok) {
+      // 2. Fallback to standalone port 5000 if running in local development
+      const isLocal = typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
+      if ((!res || !res.ok) && isLocal) {
         try {
           const r2 = await fetch('http://localhost:5000/api/contact', {
             method: 'POST',

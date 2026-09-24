@@ -35,6 +35,8 @@ const ProjectCard = ({
           alt={title}
           className="w-full h-full object-cover object-center transition-opacity duration-300 opacity-90 group-hover:opacity-100"
           src={imageSrc}
+          loading="lazy"
+          decoding="async"
         />
         <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-500 pointer-events-none" />
       </div>

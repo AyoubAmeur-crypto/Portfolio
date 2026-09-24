@@ -1,14 +1,14 @@
-# Ayoub Ameur Portfolio
+# Ayoub Ameur — Portfolio
 
 <div align="center">
   <br />
-  <img src="./src/assets/ayoublogo.png" width="180" alt="Ayoub Logo" />
+  <img src="./public/assets/ayoublogo.png" width="160" alt="Ayoub Ameur Logo" />
   <br />
   <br />
   <p align="center">
-    <strong>Software Engineering & AI | Backend, Full-Stack & Applied AI</strong>
+    <strong>Software Engineering & AI Student at ENSA Fès</strong>
     <br />
-    <em>Building reliable software products across backend, web, mobile and applied AI.</em>
+    <em>Backend architectures, high-performance web platforms, automated QA systems, and applied AI systems.</em>
   </p>
   
   <p align="center">
@@ -20,53 +20,74 @@
 
 ---
 
-## Core Focus Areas
+## ⚡ Technical Architecture
 
-> **Backend & Systems Engineering**  
-> Designing robust REST APIs and microservices with Java, Spring Boot, PostgreSQL, and clean architectural boundaries.
-
-> **Software Quality & Automation**  
-> Building enterprise Playwright test frameworks, deterministic database seed/reset workflows, and regression suites.
-
-> **Applied AI & Computer Vision**  
-> Developing real-world vision pipelines with PyTorch, YOLO, and SAM, exposed via high-performance FastAPI backends.
+- **Frontend**: React 19, TypeScript, Tailwind CSS 4, GSAP (ScrollTrigger), Lenis Smooth Scroll, Lucide Icons
+- **Backend / Serverless**: Vercel Serverless Functions (`/api`), Nodemailer (Gmail SMTP), GitHub GraphQL API
+- **Tooling & Optimization**: Vite 6, Rollup chunk splitting, WebP image compression, Core Web Vitals optimization
 
 ---
 
-## Technical Foundation
+## 🚀 Vercel Deployment
 
-This portfolio is a showcase of high-performance web engineering and interactive design.
+This project is 100% pre-configured for instant zero-configuration deployment on **Vercel**.
 
-- **Frontend**: React 19, GSAP (ScrollTrigger, SplitText), Tailwind CSS 4, Lenis (Smooth Scroll)
-- **Backend**: Node.js, Express, Nodemailer
-- **AI Integration**: Google Gemini API for intelligent interactions
-- **Performance**: GPU-accelerated animations and optimized asset delivery
+### Step 1: Deploy to Vercel
+1. Push this repository to GitHub.
+2. Go to [vercel.com](https://vercel.com/) and click **Add New... > Project**.
+3. Import this repository. Vercel will automatically detect the **Vite** framework preset, `dist` output directory, and the `/api` serverless functions.
 
-## Installation & Setup
+### Step 2: Configure Environment Variables
+In **Project Settings → Environment Variables**, add:
 
-1. **Clone the repository**:
-   ```bash
-   git clone https://github.com/AyoubAmeur-crypto/portfolio.git
-   ```
+| Variable | Description | Example |
+| :--- | :--- | :--- |
+| `EMAIL_USER` | Gmail address used by Nodemailer to send contact emails | `ayoubameur.tech@gmail.com` |
+| `EMAIL_PASS` | 16-character Google App Password (without spaces) | `xxxx xxxx xxxx xxxx` |
+| `EMAIL_TO` | Destination inbox for contact submissions (optional, defaults to EMAIL_USER) | `ayoubameur.tech@gmail.com` |
+| `GITHUB_TOKEN` | GitHub Personal Access Token (`read:user` scope) | `ghp_xxxxxxxxxxxx` |
+| `GITHUB_USERNAME` | GitHub username to fetch contribution stats for | `AyoubAmeur-crypto` |
 
-2. **Install dependencies**:
-   ```bash
-   npm install
-   ```
+Click **Deploy**!
 
-3. **Configure Environment**:
-   Create a `.env` file and add your credentials:
-   ```env
-   GEMINI_API_KEY=your_api_key_here
-   ```
+---
 
-4. **Run the application**:
-   ```bash
-   npm run dev
-   ```
+## 💻 Local Development
+
+### 1. Install dependencies
+```bash
+npm install
+```
+
+### 2. Configure environment
+Copy `.env.example` to `.env` and fill in your credentials:
+```bash
+cp .env.example .env
+```
+
+### 3. Run development server
+```bash
+npm run dev
+```
+Visit `http://localhost:3000`. The Vite dev server includes built-in proxy middleware for `/api/contact` and `/api/github/contributions`.
+
+---
+
+## 📦 Production Build & Quality Check
+
+```bash
+# Type check without emitting
+npm run lint
+
+# Production build with chunk splitting and asset optimization
+npm run build
+
+# Preview production build locally
+npm run preview
+```
 
 ---
 
 <p align="center">
-  Design & Code by <strong>Ayoub Ameur</strong>
+  Crafted with precision by <strong>Ayoub Ameur</strong>
 </p>

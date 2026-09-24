@@ -195,19 +195,41 @@ export default defineConfig(({ mode }) => {
       githubApiDevPlugin(ghToken, ghUser),
       contactApiDevPlugin(env),
     ],
-    define: {
-      'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY),
-    },
     resolve: {
       alias: {
         '@': path.resolve(__dirname, '.'),
       },
     },
-    server: {
-      watch: {
-        usePolling: true,
+    build: {
+      target: 'es2022',
+      outDir: 'dist',
+      assetsInlineLimit: 4096,
+      cssCodeSplit: true,
+      sourcemap: false,
+      rollupOptions: {
+        output: {
+          manualChunks(id) {
+            if (id.includes('node_modules')) {
+              if (id.includes('react') || id.includes('react-dom') || id.includes('scheduler')) {
+                return 'vendor-react';
+              }
+              if (id.includes('gsap')) {
+                return 'vendor-gsap';
+              }
+              if (id.includes('lenis')) {
+                return 'vendor-scroll';
+              }
+              if (id.includes('lucide-react')) {
+                return 'vendor-icons';
+              }
+            }
+          },
+        },
       },
-      hmr: true,
+    },
+    server: {
+      port: 3000,
+      host: '0.0.0.0',
     },
   };
 });
