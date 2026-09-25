@@ -7,18 +7,21 @@ gsap.registerPlugin(ScrollTrigger);
 
 interface ExperienceItem {
   role: string;
+  mobileRole?: string;
   company: string;
   location: string;
   duration: string;
   type: string;
   link?: string;
   description: string;
+  mobileDescription: string;
   technologies: string[];
 }
 
 const experiences: ExperienceItem[] = [
   {
     role: 'Playwright QA Automation Engineer | E2E Testing | React & Full-Stack',
+    mobileRole: 'QA Automation & Full-Stack Engineer',
     company: 'Upwork & Fiverr',
     location: 'Remote / Global Clients',
     duration: '2022 – Present',
@@ -26,6 +29,8 @@ const experiences: ExperienceItem[] = [
     link: 'https://www.upwork.com/freelancers/~01fd0bd31004322b09',
     description:
       'Architecting enterprise end-to-end automation suites using Playwright with TypeScript, Page Object Models, API validation, and deterministic database seed/reset workflows. Engineering high-performance, responsive full-stack web applications with React, Next.js, Node.js, Express, and modern REST APIs for international clients.',
+    mobileDescription:
+      'Architecting enterprise Playwright E2E automation suites with TypeScript and engineering performant full-stack web applications with React, Next.js, and Node.js for global clients.',
     technologies: [
       'Playwright',
       'TypeScript',
@@ -46,6 +51,8 @@ const experiences: ExperienceItem[] = [
     type: 'Engineering Internship',
     description:
       'Built and maintained automated quality workflows for GoroInvest (a multi-tenant investment platform), combining browser automation, API validation, and SQL-level data verification to test authentication, tenant isolation, dashboards, and critical business flows. Implemented Page Object Models, reusable fixtures, deterministic PostgreSQL test-data seed/reset workflows, and security-focused regression suites within GitHub CI/CD.',
+    mobileDescription:
+      'Built automated quality workflows for GoroInvest platform, combining Playwright browser automation, API validation, and PostgreSQL seed/reset regression suites in GitHub CI/CD.',
     technologies: [
       'Playwright',
       'TypeScript',
@@ -68,6 +75,8 @@ const experiences: ExperienceItem[] = [
     type: 'Engineering Internship',
     description:
       'Developed full-stack web features with React, Node.js, Express, and MongoDB, including secure REST APIs, authentication mechanisms, and responsive user interfaces, with practical exposure to containerized Docker deployments and CI/CD pipelines.',
+    mobileDescription:
+      'Developed full-stack web features with React, Node.js, and MongoDB, building secure REST APIs, auth flows, and responsive UIs with Docker CI/CD.',
     technologies: [
       'React.js',
       'Node.js',
@@ -88,6 +97,7 @@ const education = [
     location: 'Fès, Morocco',
     period: '2024 – Present',
     details: 'Comprehensive curriculum spanning advanced algorithms, distributed systems, software quality, databases, computer vision, and machine learning.',
+    mobileDetails: 'Comprehensive curriculum spanning distributed backends, algorithms, software quality, and machine learning.',
   },
   {
     degree: 'Integrated Preparatory Classes',
@@ -95,6 +105,7 @@ const education = [
     location: 'Fès, Morocco',
     period: '2022 – 2024',
     details: 'Intensive two-year preparatory cycle integrated within ENSA Fès focusing on advanced mathematics, physics, and fundamentals of computer science and algorithms.',
+    mobileDetails: 'Intensive two-year preparatory cycle focusing on advanced mathematics, physics, and computer science fundamentals.',
   },
 ];
 
@@ -159,7 +170,7 @@ const Experience = () => {
           {/* Animated Vertical Line */}
           <div ref={lineRef} className="absolute left-0 top-0 bottom-0 w-[1px] bg-white/15 hidden md:block" />
 
-          <div ref={itemsRef} className="flex flex-col gap-12 md:gap-16 md:pl-14">
+          <div ref={itemsRef} className="flex flex-col gap-10 md:gap-16 md:pl-14">
 
             {/* Section 1: Professional Experience */}
             <div>
@@ -168,22 +179,25 @@ const Experience = () => {
                 Professional & Freelance Experience
               </p>
 
-              <div className="flex flex-col gap-12">
-                {experiences.map((exp, index) => (
+              <div className="flex flex-col gap-10 md:gap-12">
+                {experiences.map((exp) => (
                   <div key={exp.company} className="group relative">
                     {/* Timeline Node Dot */}
                     <div className="absolute -left-[63px] top-3 w-3 h-3 bg-white rounded-full hidden md:block scale-0 group-hover:scale-100 transition-transform duration-300 shadow-[0_0_12px_rgba(255,255,255,0.8)]" />
 
+                    {/* Role Title */}
                     <div className="flex flex-col md:flex-row md:justify-between md:items-baseline mb-2 gap-1">
-                      <h3 className="text-2xl md:text-3xl font-bold text-white group-hover:text-gray-200 transition-colors">
-                        {exp.role}
+                      <h3 className="text-xl md:text-3xl font-bold text-white group-hover:text-gray-200 transition-colors leading-snug">
+                        <span className="md:hidden">{exp.mobileRole || exp.role}</span>
+                        <span className="hidden md:inline">{exp.role}</span>
                       </h3>
-                      <span className="text-xs font-mono text-white/40 uppercase tracking-widest">
+                      <span className="text-xs font-mono text-white/40 uppercase tracking-widest shrink-0">
                         {exp.duration} · {exp.location}
                       </span>
                     </div>
 
-                    <p className="text-white/70 font-mono text-sm mb-4">
+                    {/* Company & Type */}
+                    <p className="text-white/70 font-mono text-xs sm:text-sm mb-3 md:mb-4">
                       {exp.link ? (
                         <a
                           href={exp.link}
@@ -199,11 +213,18 @@ const Experience = () => {
                       <span className="text-white/30"> · {exp.type}</span>
                     </p>
 
-                    <p className="text-gray-300 leading-relaxed font-light text-sm md:text-base mb-6 max-w-3xl">
+                    {/* Desktop Description: Full */}
+                    <p className="hidden md:block text-gray-300 leading-relaxed font-light text-base mb-6 max-w-3xl">
                       {exp.description}
                     </p>
 
-                    <div className="flex flex-wrap gap-2">
+                    {/* Mobile Description: Concise, No Boxes, No Read More Buttons */}
+                    <p className="block md:hidden text-gray-300 leading-relaxed font-light text-sm mb-4">
+                      {exp.mobileDescription}
+                    </p>
+
+                    {/* Desktop Technologies: Full list */}
+                    <div className="hidden md:flex flex-wrap gap-2">
                       {exp.technologies.map((tech, i) => (
                         <span
                           key={tech}
@@ -211,6 +232,22 @@ const Experience = () => {
                             i === 0
                               ? 'text-black bg-white font-semibold'
                               : 'text-white/80 border border-white/15 bg-white/[0.04] hover:bg-white/10'
+                          }`}
+                        >
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+
+                    {/* Mobile Technologies: Clean concise badges, zero yellow */}
+                    <div className="flex md:hidden flex-wrap gap-1.5">
+                      {exp.technologies.slice(0, 5).map((tech, i) => (
+                        <span
+                          key={tech}
+                          className={`text-[11px] px-2.5 py-0.5 rounded-full font-mono tracking-wide ${
+                            i === 0
+                              ? 'text-black bg-white font-semibold'
+                              : 'text-white/75 border border-white/15 bg-white/[0.04]'
                           }`}
                         >
                           {tech}
@@ -229,27 +266,33 @@ const Experience = () => {
                 Academic Background
               </p>
 
-              <div className="flex flex-col gap-10">
+              <div className="flex flex-col gap-8 md:gap-10">
                 {education.map((edu) => (
                   <div key={edu.degree} className="group relative">
-                    {/* Timeline Node Dot - Matches Experience with 100% full opacity and glow */}
+                    {/* Timeline Node Dot */}
                     <div className="absolute -left-[63px] top-3 w-3 h-3 bg-white rounded-full hidden md:block scale-0 group-hover:scale-100 transition-transform duration-300 shadow-[0_0_12px_rgba(255,255,255,0.8)]" />
 
                     <div className="flex flex-col md:flex-row md:justify-between md:items-baseline mb-2 gap-1">
-                      <h3 className="text-xl md:text-2xl font-bold text-white">
+                      <h3 className="text-base sm:text-lg md:text-2xl font-bold text-white leading-snug">
                         {edu.degree}
                       </h3>
-                      <span className="text-xs font-mono text-white/40 uppercase tracking-widest">
+                      <span className="text-xs font-mono text-white/40 uppercase tracking-widest shrink-0">
                         {edu.period}
                       </span>
                     </div>
 
-                    <p className="text-white/70 font-mono text-sm mb-3">
+                    <p className="text-white/70 font-mono text-xs sm:text-sm mb-2 md:mb-3">
                       {edu.institution} <span className="text-white/30">· {edu.location}</span>
                     </p>
 
-                    <p className="text-gray-400 font-light text-sm leading-relaxed max-w-2xl">
+                    {/* Desktop details */}
+                    <p className="hidden md:block text-gray-400 font-light text-sm leading-relaxed max-w-2xl">
                       {edu.details}
+                    </p>
+
+                    {/* Mobile details: Concise, No Boxes */}
+                    <p className="block md:hidden text-gray-400 font-light text-xs sm:text-sm leading-relaxed">
+                      {edu.mobileDetails}
                     </p>
                   </div>
                 ))}

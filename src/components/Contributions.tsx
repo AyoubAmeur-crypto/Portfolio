@@ -253,6 +253,7 @@ export default function Contributions() {
   return (
     <section 
       ref={sectionRef} 
+      id="contributions"
       className="py-24 bg-black relative border-t border-white/5 overflow-hidden"
     >
       {/* Background glow - Subtle monochrome glow */}
@@ -281,12 +282,15 @@ export default function Contributions() {
       <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
         <div className="contrib-header flex flex-col md:flex-row items-start md:items-end justify-between mb-16 gap-6">
           <div>
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4 tracking-tight flex items-center gap-4">
-              <Github className="w-10 h-10 text-white" />
-              Impact<span className="text-white/40 text-3xl md:text-4xl"> & Consistency</span>
+            <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold text-white mb-3 md:mb-4 tracking-tight flex items-center gap-2.5 sm:gap-4">
+              <Github className="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 text-white shrink-0" />
+              <span>Impact</span>
+              <span className="text-white/40 text-xl sm:text-3xl md:text-4xl font-normal hidden sm:inline">
+                & Consistency
+              </span>
             </h2>
-            <p className="text-white/50 text-lg max-w-2xl flex items-center gap-2">
-              <Info className="w-5 h-5 text-white/30" />
+            <p className="text-white/50 text-sm sm:text-base md:text-lg max-w-2xl flex items-center gap-2">
+              <Info className="w-4 h-4 sm:w-5 sm:h-5 text-white/30 shrink-0" />
               Mapping open-source development and daily coding cadence.
             </p>
           </div>

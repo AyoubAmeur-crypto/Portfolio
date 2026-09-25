@@ -258,15 +258,15 @@ const Contact = () => {
   });
 
   return (
-    <section ref={containerRef} className="py-48 px-8 md:px-24 bg-black border-t border-white/5 relative overflow-hidden" id="contact">
+    <section ref={containerRef} className="py-28 sm:py-48 px-4 sm:px-8 md:px-24 bg-black border-t border-white/5 relative overflow-hidden" id="contact">
       <div ref={elementsRef} className="max-w-[1400px] mx-auto flex flex-col items-center">
-        <h2 className="text-4xl md:text-7xl font-bold tracking-tight text-white mb-12 text-center">
+        <h2 className="text-3xl sm:text-5xl md:text-7xl font-bold tracking-tight text-white mb-8 sm:mb-12 text-center">
           Got a project?<br />Let's talk.
         </h2>
         
-        <div ref={btnWrapperRef}>
-          <button onClick={openModal} className="group inline-flex items-center gap-4 px-10 py-5 bg-white text-black font-semibold text-lg rounded-full hover:scale-105 transition-all duration-500 hover:shadow-[0_0_20px_rgba(255,255,255,0.4)] ease-[cubic-bezier(0.16,1,0.3,1)]">
-            Email Me <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+        <div ref={btnWrapperRef} className="w-full flex justify-center">
+          <button onClick={openModal} className="group inline-flex items-center justify-center gap-2.5 sm:gap-4 px-6 py-3.5 sm:px-10 sm:py-5 bg-white text-black font-semibold text-sm sm:text-lg rounded-full hover:scale-105 active:scale-95 transition-all duration-500 hover:shadow-[0_0_20px_rgba(255,255,255,0.4)] ease-[cubic-bezier(0.16,1,0.3,1)] cursor-pointer">
+            Email Me <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
           </button>
         </div>
         

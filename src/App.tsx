@@ -40,7 +40,10 @@ export default function App() {
     // Standard GSAP lag smoothing: smoothly absorbs heavy CPU frames rather than dropping scroll frames
     gsap.ticker.lagSmoothing(500, 33);
 
+    (window as any).__lenis = lenis;
+
     return () => {
+      delete (window as any).__lenis;
       gsap.ticker.remove(updateLenis);
       lenis.destroy();
     };
