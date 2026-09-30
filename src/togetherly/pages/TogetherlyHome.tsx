@@ -110,7 +110,7 @@ export default function TogetherlyHome({ onNavigate }: TogetherlyHomeProps) {
   const discretionaryB = partnerBIncome - shareB;
 
   return (
-    <div className="min-h-screen bg-[#FAF6EF] text-[#243B38] font-sans antialiased selection:bg-[#F29B7F]/30 selection:text-[#174F4A]">
+    <div className="min-h-screen w-full max-w-full overflow-x-hidden bg-[#FAF6EF] text-[#243B38] font-sans antialiased selection:bg-[#F29B7F]/30 selection:text-[#174F4A]">
       <SEOHead
         title="Togetherly — Money Made Simpler, Life More Together"
         description="Togetherly creates calm, beautifully structured financial planning systems and Google Sheets templates designed for modern couples. Track shared expenses, fair splits, and life milestones together."

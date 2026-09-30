@@ -52,7 +52,7 @@ export default function CouplesMoneyPlanner({ onNavigate }: CouplesMoneyPlannerP
   };
 
   return (
-    <div className="min-h-screen bg-[#F7F0E4] text-[#243B38] font-sans antialiased selection:bg-[#F29B7F]/30 selection:text-[#174F4A]">
+    <div className="min-h-screen w-full max-w-full overflow-x-hidden bg-[#F7F0E4] text-[#243B38] font-sans antialiased selection:bg-[#F29B7F]/30 selection:text-[#174F4A]">
       <SEOHead
         title="Togetherly — Couples Money Planner (Google Sheets System)"
         description="The complete 8-sheet financial planning system for couples in Google Sheets. Track shared expenses, automate fair proportional splits, and achieve savings goals without tension."
