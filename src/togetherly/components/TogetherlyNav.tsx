@@ -38,7 +38,7 @@ export default function TogetherlyNav({ onNavigate }: TogetherlyNavProps) {
 
   return (
     <>
-      <header className="sticky top-0 z-40 backdrop-blur-md bg-[#174F4A] border-b border-[#2C7A73]/30 transition-all text-[#FAF6EF]">
+      <header className="fixed top-0 left-0 right-0 w-full z-[100] backdrop-blur-md bg-[#174F4A] border-b border-[#2C7A73]/30 transition-all text-[#FAF6EF]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
             {/* Logo / Brand identity */}
@@ -96,6 +96,8 @@ export default function TogetherlyNav({ onNavigate }: TogetherlyNavProps) {
           </div>
         </div>
       </header>
+      {/* Spacer so page content begins neatly below fixed navbar */}
+      <div className="h-20 w-full" aria-hidden="true" />
 
       {/* Full-Page Mobile Navigation Drawer Rendered Via Portal to Document Body */}
       {mounted && typeof document !== 'undefined' && createPortal(
