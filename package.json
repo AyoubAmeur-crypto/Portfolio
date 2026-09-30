@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && cp dist/index.html dist/togetherly/index.html && mkdir -p dist/togetherly/couples-money-planner && cp dist/index.html dist/togetherly/couples-money-planner/index.html && mkdir -p dist/togetherly/coming-soon && cp dist/index.html dist/togetherly/coming-soon/index.html",
     "preview": "vite preview",
     "server": "tsx server.ts",
     "dev:all": "npm run dev & npm run server",
