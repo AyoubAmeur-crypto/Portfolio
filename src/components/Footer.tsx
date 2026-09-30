@@ -1,7 +1,11 @@
 import React, { useState, useRef } from 'react';
 import ayoubLogo from '../assets/ayoublogo.png';
 
-const Footer: React.FC = () => {
+interface FooterProps {
+  onNavigate?: (path: string) => void;
+}
+
+const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
   const [mousePos, setMousePos] = useState<{ x: number; y: number }>({ x: 50, y: 50 });
   const [isHovered, setIsHovered] = useState<boolean>(false);
   const wordmarkContainerRef = useRef<HTMLDivElement>(null);
@@ -75,6 +79,13 @@ const Footer: React.FC = () => {
             <a href="#certifications" className="text-white/70 hover:text-white text-sm transition-colors duration-200">
               Certifications
             </a>
+            <button
+              onClick={() => (onNavigate ? onNavigate('/togetherly') : (window.location.pathname = '/togetherly'))}
+              className="text-[#F29B7F] hover:text-[#F6C2B0] text-sm transition-colors duration-200 text-left flex items-center gap-1 cursor-pointer font-medium pt-1"
+            >
+              <span>Togetherly</span>
+              <span className="text-xs">↗</span>
+            </button>
           </div>
 
           {/* Col 3: Connect & Socials + Back to Top */}
