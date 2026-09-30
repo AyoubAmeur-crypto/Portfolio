@@ -135,9 +135,9 @@ export default function TogetherlyHome({ onNavigate }: TogetherlyHomeProps) {
           <div className="absolute top-10 left-1/2 -translate-x-1/2 w-[1000px] h-[450px] bg-gradient-to-b from-[#2C7A73]/10 to-transparent rounded-none blur-3xl pointer-events-none -z-10" />
 
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-center">
-              {/* Left Column: High-Impact Typography & Clear Value */}
-              <div className="lg:col-span-6 space-y-6 text-left">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+              {/* Left Column: High-Impact Typography & Clear Value (Mobile: order-2 under SVG) */}
+              <div className="lg:col-span-6 order-2 lg:order-1 space-y-6 text-left">
                 <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-[#174F4A] tracking-tight leading-[1.1]">
                   Money made simpler, <br />
                   <span className="text-[#2C7A73]">life more together.</span>
@@ -209,8 +209,8 @@ export default function TogetherlyHome({ onNavigate }: TogetherlyHomeProps) {
                 </div>
               </div>
 
-              {/* Right Column: ONLY ONE SINGLE SVG (Manage Money Lottie) */}
-              <div className="lg:col-span-6 flex items-center justify-center py-4 lg:py-0">
+              {/* Right Column: ONLY ONE SINGLE SVG (Manage Money Lottie) (Mobile: order-1 first) */}
+              <div className="lg:col-span-6 order-1 lg:order-2 flex items-center justify-center py-4 lg:py-0">
                 <HeroLottie />
               </div>
             </div>
@@ -313,11 +313,11 @@ export default function TogetherlyHome({ onNavigate }: TogetherlyHomeProps) {
               </p>
             </div>
 
-            {/* Editorial Rituals: Alternating Content & Seamless Flat Screens (Not a grid) */}
-            <div className="max-w-6xl mx-auto space-y-20 sm:space-y-28">
-              {/* Ritual 1: Content Left, Picture Right */}
+            {/* Editorial Rituals: Alternating Content & Seamless Flat Screens (Screens hidden on mobile) */}
+            <div className="max-w-6xl mx-auto space-y-14 sm:space-y-20 lg:space-y-28">
+              {/* Ritual 1: Content Left, Picture Right (Mobile: Just typo, reduced width) */}
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-                <div className="lg:col-span-5 space-y-5">
+                <div className="lg:col-span-5 space-y-5 max-w-sm sm:max-w-md mx-auto lg:max-w-none lg:mx-0">
                   <div className="w-12 h-12 rounded-none bg-[#174F4A] text-[#FAF6EF] flex items-center justify-center shrink-0">
                     <Layers className="w-6 h-6 text-[#F29B7F]" />
                   </div>
@@ -336,7 +336,8 @@ export default function TogetherlyHome({ onNavigate }: TogetherlyHomeProps) {
                     Spend your personal allowance on hobbies or spontaneous coffee without needing to check in or justify a single transaction.
                   </div>
                 </div>
-                <div className="lg:col-span-7 flex items-center justify-center">
+                {/* Screen hidden on mobile: only visible on lg+ */}
+                <div className="hidden lg:flex lg:col-span-7 items-center justify-center">
                   <img
                     src="/togetherly/monthly-plan.png?v=4"
                     alt="Togetherly Monthly Plan Sheet"
@@ -345,16 +346,17 @@ export default function TogetherlyHome({ onNavigate }: TogetherlyHomeProps) {
                 </div>
               </div>
 
-              {/* Ritual 2: Picture Left, Content Right (Reversed) */}
+              {/* Ritual 2: Picture Left, Content Right (Mobile: Just typo, reduced width) */}
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-                <div className="lg:col-span-7 lg:order-1 flex items-center justify-center">
+                {/* Screen hidden on mobile: only visible on lg+ */}
+                <div className="hidden lg:flex lg:col-span-7 lg:order-1 items-center justify-center">
                   <img
                     src="/togetherly/goals.png?v=4"
                     alt="Togetherly Shared Goals Sheet"
                     className="w-full h-auto object-contain select-none pointer-events-none rounded-none"
                   />
                 </div>
-                <div className="lg:col-span-5 lg:order-2 space-y-5">
+                <div className="lg:col-span-5 lg:order-2 space-y-5 max-w-sm sm:max-w-md mx-auto lg:max-w-none lg:mx-0">
                   <div className="w-12 h-12 rounded-none bg-[#174F4A] text-[#FAF6EF] flex items-center justify-center shrink-0">
                     <Compass className="w-6 h-6 text-[#91B7A0]" />
                   </div>
@@ -784,8 +786,17 @@ export default function TogetherlyHome({ onNavigate }: TogetherlyHomeProps) {
         <section id="buy" className="py-20 lg:py-28 bg-[#FAF6EF] border-t border-[#174F4A]/10 overflow-hidden">
           <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col lg:flex-row items-center justify-between gap-10 lg:gap-12">
-              {/* Content on the Left */}
-              <div className="w-full lg:w-[48%] space-y-5 text-left shrink-0">
+              {/* Tablet Mockup Image (Mobile: FIRST order-1 / Desktop: RIGHT order-2) */}
+              <div className="w-full lg:w-[52%] order-1 lg:order-2 flex items-center justify-center lg:justify-end">
+                <img
+                  src="/togetherly/tablet.png"
+                  alt="Togetherly Couples Money Planner on Tablet"
+                  className="w-full max-w-lg lg:max-w-none lg:w-[109%] xl:w-[109%] h-auto object-contain select-none pointer-events-none drop-shadow-2xl"
+                />
+              </div>
+
+              {/* Content on the Left (Mobile: UNDER TABLET order-2 / Desktop: LEFT order-1) */}
+              <div className="w-full lg:w-[48%] order-2 lg:order-1 space-y-5 text-left shrink-0">
                 <span className="inline-block text-xs font-bold uppercase tracking-wider text-[#2C7A73] bg-[#2C7A73]/10 px-3.5 py-1.5 rounded-none">
                   Instant Digital Delivery
                 </span>
@@ -813,8 +824,8 @@ export default function TogetherlyHome({ onNavigate }: TogetherlyHomeProps) {
                     </div>
                   </div>
 
-                  {/* Buy and Demo Links - Reduced and aligned */}
-                  <div className="flex flex-wrap sm:flex-nowrap items-center gap-3">
+                  {/* Buy and Demo Links - Mobile friendly stack */}
+                  <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
                     <a
                       href={TOGETHERLY_GOOGLE_SHEET_COPY_URL}
                       target="_blank"
@@ -852,15 +863,6 @@ export default function TogetherlyHome({ onNavigate }: TogetherlyHomeProps) {
                     <span>30-Day Guarantee</span>
                   </div>
                 </div>
-              </div>
-
-              {/* Image on the Right */}
-              <div className="w-full lg:w-[52%] flex items-center justify-center lg:justify-end">
-                <img
-                  src="/togetherly/tablet.png"
-                  alt="Togetherly Couples Money Planner on Tablet"
-                  className="w-full max-w-xl lg:max-w-none lg:w-[109%] xl:w-[109%] h-auto object-contain select-none pointer-events-none drop-shadow-2xl"
-                />
               </div>
             </div>
           </div>
